@@ -48,6 +48,28 @@ username: admin
 email: admin@example.com
 password: codelabpass
 
+## Reusable apps
+
+Build `polls` application package
+
+```bash
+cd django-polls
+python setup.py sdist
+```
+
+Install `django-polls` application package into `django-codelab`
+
+```bash
+cd django-codelab
+pip3 install django-polls/dist/django-polls-0.1.tar.gz
+```
+
+Uninstall `django-polls` application package from `django-codelab`
+
+```bash
+pip3 uninstall django-polls
+```
+
 ## References
 
 - [Python 最佳实践指南！](https://pythonguidecn.readthedocs.io/zh/latest/)
