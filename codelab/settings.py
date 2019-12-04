@@ -140,7 +140,7 @@ if os.getcwd() == '/app':
     SECURE_PROXY_SSL_HEADER = {'HTTP_X_FORWART_PROTO', 'https'}
     ALLOWED_HOSTS = ['*']
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    STATIC_ROOT = 'staticfiles'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'static')
+        STATIC_ROOT
     )
