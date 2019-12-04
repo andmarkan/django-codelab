@@ -1,43 +1,57 @@
 from django.shortcuts import render
 from learning_logs.models import Entry, Topic
 from .forms import TopicForm
-from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 from learning_logs.forms import EntryForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+
+
+def check_topic_owner(request, topic):
+    if topic.owner != request.user:
+        raise Http404
 
 
 def index(request):
     return render(request, 'learning_logs/index.html')
 
 
+@login_required
 def topics(request):
-    topics = Topic.objects.order_by('date_added')
+    topics = Topic.objects.filter(owner=request.user).order_by('date_added')
     context = {'topics': topics}
     return render(request, 'learning_logs/topics.html', context)
 
 
+@login_required
 def topic(request, topic_id):
     topic = Topic.objects.get(id=topic_id)
+    check_topic_owner(request, topic)
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
     return render(request, 'learning_logs/topic.html', context)
 
 
+@login_required
 def new_topic(request):
     if request.method != 'POST':
         form = TopicForm()
     else:
         form = TopicForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_topic = form.save(commit=False)
+            new_topic.owner = request.user
+            new_topic.save()
             return HttpResponseRedirect(reverse('learning_logs:topics'))
     context = {'form': form}
     return render(request, 'learning_logs/new_topic.html', context)
 
 
+@login_required
 def new_entry(request, topic_id):
     topic = Topic.objects.get(id=topic_id)
+    check_topic_owner(request, topic)
     if request.method != 'POST':
         form = EntryForm()
     else:
@@ -52,9 +66,12 @@ def new_entry(request, topic_id):
     return render(request, 'learning_logs/new_entry.html', context)
 
 
+@login_required
 def edit_entry(request, entry_id):
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
+    check_topic_owner(request, topic)
+
     if request.method != 'POST':
         form = EntryForm(instance=entry)
     else:
