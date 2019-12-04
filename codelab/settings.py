@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'learning_logs',
     'users',
-    'polls',
+    # 'polls',
     # 'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
