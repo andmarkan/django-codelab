@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'learning_logs',
     'polls',
     # 'polls.apps.PollsConfig',
     'django.contrib.admin',
