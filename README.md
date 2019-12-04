@@ -44,9 +44,20 @@ python manage.py test
 
 ## Admin users
 
+local
+
+```txt
 username: admin
 email: admin@example.com
 password: codelabpass
+```
+
+heroku:
+
+```txt
+username: u4647
+password: 365715693
+```
 
 ## Reusable apps
 
