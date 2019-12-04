@@ -130,7 +130,8 @@ LOGIN_URL = '/users/login/'
 BOOTSTRAP3 = {
     'include_jquery': True,
 }
-# Activate Django-Heroku.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = "/static/"
 django_heroku.settings(locals())
 # if os.getcwd() == '/app':
 #     import dj_database_url
